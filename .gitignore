@@ -1,0 +1,29 @@
+# Visual Studio / .NET
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.log
+*.nupkg
+*.zip
+*.db
+
+# Rider / IDEs
+.idea/
+.vscode/
+
+# Node
+node_modules/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Publicaciones
+publish/
+artifacts/
+
+# Secrets
+secrets.json
