@@ -43,6 +43,7 @@ namespace AccesoADatos.Repositorios
         {
             Pago pago = _context.pagos
                          .Include(p => p.Usuario)
+                         .Include(p => p.TipoDeGasto)
                         .Where(p => p.Id == id)
                         .FirstOrDefault();
                         /*FirstOrDefault(t => t.Id == id)*/;
@@ -55,7 +56,9 @@ namespace AccesoADatos.Repositorios
 
         public IEnumerable<Pago> GetAll()
         {
-            return _context.pagos;
+            return _context.pagos
+                      .Include(p => p.Usuario)
+                        .Include(p => p.TipoDeGasto);
         }
 
         public IEnumerable<Pago> ObtenerPagosPorAnioYmes(int mes, int anio)

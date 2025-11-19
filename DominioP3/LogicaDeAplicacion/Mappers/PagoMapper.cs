@@ -25,7 +25,9 @@ namespace LogicaDeAplicacion.Mappers
                     TipoDeGastoId = dto.TipoDeGastoId,
                     UsuarioId = usuarioId,
                     FechaPago = dto.FechaPago,
-                    NumFactura = dto.NumFactura
+                    NumFactura = dto.NumFactura,
+                    //TipoDeGasto = TipoDeGastoMapper.FromDTO(dto.TipoDeGasto),
+                    //Usuario = UsuarioMapper.FromDTO(dto.Usuario)      
             };
               
             }

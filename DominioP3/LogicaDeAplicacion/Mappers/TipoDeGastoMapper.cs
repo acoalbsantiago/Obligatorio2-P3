@@ -29,6 +29,5 @@ namespace LogicaDeAplicacion.Mappers
                 Id = tipo.Id
             };
         }
-
     }
 }

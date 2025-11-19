@@ -27,15 +27,13 @@ namespace LogicaDeAplicacion.CasosDeUso.Pago
             }
             catch (PagoException)
             {
-
                 throw;
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("Ocurrió un error al registrar el pago.", ex);
             }
-        }
-            
+        }            
     }
 }
 

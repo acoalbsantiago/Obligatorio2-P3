@@ -4,7 +4,10 @@ using AccesoADatos.Repositorios;
 using LogicaDeAplicacion.CasosDeUso.Pago;
 using LogicaDeAplicacion.InterfacesCU.Pago;
 using LogicaDeNegocio.InterfacesRepositorio;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace WebApi
 {
@@ -30,9 +33,23 @@ namespace WebApi
             builder.Services.AddScoped<IPagoRepository, PagoRepository>();
             // Add services to the container.
             builder.Services.AddScoped<IObtenerPagoPorId, ObtenerPagoPorIdCU>();
-            builder.Services.AddScoped<IObtenerPagosDadoAnioYmes, ObtenerPagosSegunAnioYmesCU>();
+            builder.Services.AddScoped<IAgregarPago, AgregarPagoCU>();
+            builder.Services.AddScoped<IObtenerPagos, ObtenerPagosCU>();
 
+            //TOKEN
+            var key = builder.Configuration["Jwt:Key"];
 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
 
             var app = builder.Build();
 
@@ -45,6 +62,8 @@ namespace WebApi
 
             app.UseHttpsRedirection();
 
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

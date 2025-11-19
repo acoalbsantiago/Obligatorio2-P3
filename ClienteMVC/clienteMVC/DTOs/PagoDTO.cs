@@ -1,14 +1,7 @@
-﻿using LogicaDeNegocio.Entidades;
-using LogicaDeNegocio.Enums;
-using System;
-using System.Collections.Generic;
+﻿using clienteMVC.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LogicaDeAplicacion.DTOs
+namespace clienteMVC.DTOs
 {
     public class PagoDTO
     {
@@ -18,7 +11,7 @@ namespace LogicaDeAplicacion.DTOs
         [Required(ErrorMessage = "La descripcion es obligatoria.")]
         public string Descripcion { get; set; }
         public TipoDeGastoDTO? TipoDeGasto { get; set; }
-        [Required(ErrorMessage = "El tipo de pago es obligatorio.")]
+        [Required(ErrorMessage = "El tipo de gasto es obligatorio.")]
         public int TipoDeGastoId { get; set; }
         public UsuarioDTO? Usuario { get; set; }
         public int UsuarioId { get; set; }

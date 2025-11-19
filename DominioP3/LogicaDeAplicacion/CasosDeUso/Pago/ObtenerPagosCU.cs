@@ -2,12 +2,12 @@
 using LogicaDeAplicacion.DTOs;
 using LogicaDeAplicacion.InterfacesCU.Pago;
 using LogicaDeAplicacion.Mappers;
+using LogicaDeNegocio.Entidades;
 using LogicaDeNegocio.InterfacesRepositorio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LogicaDeAplicacion.CasosDeUso.Pago
 {
@@ -22,12 +22,8 @@ namespace LogicaDeAplicacion.CasosDeUso.Pago
 
         public IEnumerable<PagoDTO> ObtenerPagos()
         {
-            List<PagoDTO> toReturn = new List<PagoDTO>();
-            foreach (LogicaDeNegocio.Entidades.Pago tipo in _repo.GetAll())
-            {
-                toReturn.Add(PagoMapper.ToDTO(tipo));
-            }
-            return toReturn;
+            IEnumerable<LogicaDeNegocio.Entidades.Pago> toReturn = _repo.GetAll();
+            return toReturn.Select(cont => PagoMapper.ToDTO(cont));
         }
     }
 }
