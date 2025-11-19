@@ -8,18 +8,26 @@ namespace WebApi
 {
     public class TokenHandler
     {
-        public static string GenerarToken(UsuarioDTO dto)
+        private string _clave;
+
+        public TokenHandler(IConfiguration config)
+        {
+            _clave = config["Jwt:Key"];
+        }
+
+        public string GenerarToken(UsuarioDTO dto)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var claveSecreta = Encoding.ASCII.GetBytes("unaClaveMUYS3CR3T4del_N3A.SeguimosAgregandoBytesAlaClave45678");
+            var claveSecreta = Encoding.UTF8.GetBytes(_clave);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(
                     new Claim[]
                     {
-                        new Claim(ClaimTypes.Email, dto.Email.Correo),
-                        new Claim(ClaimTypes.Name, dto.Nombre)
+                        new Claim(ClaimTypes.Email, dto.Email),
+                        new Claim(ClaimTypes.Name, dto.Nombre),
+                        new Claim(ClaimTypes.Role, dto.Rol)
                     }
                 ),
                 Expires = DateTime.UtcNow.AddMonths(1),

@@ -22,6 +22,7 @@ namespace LogicaDeAplicacion.DTOs
         [Required(ErrorMessage = "Debe seleccionar un rol de usuario.")]
         public string Rol { get; set; }
         public int EquipoId { get; set; }
-        public Email Email { get; set; }
+        public string Email { get; set; }
+        public string Token { get; set; }
     }
 }

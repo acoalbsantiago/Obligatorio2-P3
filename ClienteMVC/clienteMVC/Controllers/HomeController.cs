@@ -1,49 +1,70 @@
 using System.Diagnostics;
+using clienteMVC.Auxiliar;
+using clienteMVC.DTOs;
 using clienteMVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace clienteMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private string _urlLogin;
 
-
-        public IActionResult Test(int id)
+        public HomeController(IConfiguration config)
         {
-            using var http = new HttpClient();
-
-            string url = $"https://localhost:7130/api/Pago/{id}";
-
-            // Ejecutar la llamada sin async/await
-            var response = http.GetAsync(url).Result;
-
-            var content = response.Content.ReadAsStringAsync().Result;
-
-            return Content(
-                $"Status: {response.StatusCode}\n\nRespuesta:\n{content}"
-            );
+            _urlLogin = config.GetValue<string>("URLApiLogin");
         }
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
-        public IActionResult Index()
+        public IActionResult Index(string error)
         {
+            ViewBag.Error = error;
+            return View();
+
+        }
+        public IActionResult Login(string error)
+        {
+            ViewBag.Error = error;
             return View();
         }
-
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Login(string email, string password)
         {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+            UsuarioDTO usuario = null;
+
+            try
+            {
+
+                LoginDTO logueado = new LoginDTO();
+                logueado.Email = email;
+                logueado.Password = password;
+
+                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(_urlLogin, "POST", logueado, null);
+                string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
+
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    usuario = JsonConvert.DeserializeObject<UsuarioDTO>(body);
+                }
+                else
+                {
+                    ViewBag.Mensaje = body;
+                }
+
+                HttpContext.Session.SetString("email", usuario.Email);
+                HttpContext.Session.SetInt32("usuarioId", usuario.Id);
+                HttpContext.Session.SetString("rol", usuario.Rol);
+                HttpContext.Session.SetString("token", usuario.Token);
+                return RedirectToAction("Index", "Pago");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Sucedio un error inesperado";
+                return View();
+            }
         }
     }
 }

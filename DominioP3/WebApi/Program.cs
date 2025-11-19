@@ -2,7 +2,9 @@
 using AccesoADatos.EF;
 using AccesoADatos.Repositorios;
 using LogicaDeAplicacion.CasosDeUso.Pago;
+using LogicaDeAplicacion.CasosDeUso.Usuario;
 using LogicaDeAplicacion.InterfacesCU.Pago;
+using LogicaDeAplicacion.InterfacesCU.Usuario;
 using LogicaDeNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -16,25 +18,6 @@ namespace WebApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-
-            builder.Services.AddDbContext<DbContext, ObligatorioContext>(
-            options => options.UseSqlServer(builder.Configuration.GetConnectionString("MiDB"))
-            );
-            //$Env:ASPNETCORE_ENVIRONMENT = "Home"
-            Console.WriteLine($"Entorno actual: {builder.Environment.EnvironmentName}");
-            Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionString("MiDB")}");
-
-            builder.Services.AddScoped<IPagoRepository, PagoRepository>();
-            // Add services to the container.
-            builder.Services.AddScoped<IObtenerPagoPorId, ObtenerPagoPorIdCU>();
-            builder.Services.AddScoped<IAgregarPago, AgregarPagoCU>();
-            builder.Services.AddScoped<IObtenerPagos, ObtenerPagosCU>();
 
             //TOKEN
             var key = builder.Configuration["Jwt:Key"];
@@ -51,6 +34,28 @@ namespace WebApi
                     };
                 });
 
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+
+            builder.Services.AddDbContext<DbContext, ObligatorioContext>(
+            options => options.UseSqlServer(builder.Configuration.GetConnectionString("MiDB"))
+            );
+            //$Env:ASPNETCORE_ENVIRONMENT = "Home"
+            Console.WriteLine($"Entorno actual: {builder.Environment.EnvironmentName}");
+            Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionString("MiDB")}");
+
+            builder.Services.AddScoped<IPagoRepository, PagoRepository>();
+            builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            // Add services to the container.
+            builder.Services.AddScoped<IObtenerPagoPorId, ObtenerPagoPorIdCU>();
+            builder.Services.AddScoped<IAgregarPago, AgregarPagoCU>();
+            builder.Services.AddScoped<IObtenerPagos, ObtenerPagosCU>();
+            builder.Services.AddScoped<ILogin, LoginCU>();
+            //TokenHandler DI
+            builder.Services.AddScoped<TokenHandler>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

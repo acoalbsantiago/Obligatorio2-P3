@@ -25,20 +25,19 @@ namespace clienteMVC.Controllers
 
             try
             {
-               
+                string token = HttpContext.Session.GetString("token");
                 string url = $"{_urlApi}/Pago";
 
-                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "GET");
+                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, token);
 
                 string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
                     pagos = JsonConvert.DeserializeObject<IEnumerable<PagoDTO>>(body);
-                }
-                else
+                }else
                 {
-                    ViewBag.Mensaje = body;
+                   ViewBag.Mensaje = body;
                 }
             }
             catch (Exception)

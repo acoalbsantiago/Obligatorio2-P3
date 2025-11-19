@@ -29,7 +29,7 @@ namespace LogicaDeAplicacion.Mappers
                 Password = usuario.Password,
                 Rol = usuario.Rol.ToString(),
                 EquipoId = usuario.EquipoId,
-                Email = usuario.Email
+                Email = usuario.Email.Correo
             };
         }
 

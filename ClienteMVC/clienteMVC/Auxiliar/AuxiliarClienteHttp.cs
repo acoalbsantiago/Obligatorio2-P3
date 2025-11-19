@@ -1,12 +1,14 @@
-﻿namespace clienteMVC.Auxiliar
+﻿using System.Net.Http.Headers;
+
+namespace clienteMVC.Auxiliar
 {
     public static class AuxiliarClienteHttp
     {
-        public static HttpResponseMessage EnviarSolicitud(string url, string verbo, object obj = null)
+        public static HttpResponseMessage EnviarSolicitud(string url, string verbo, object obj = null, string token = null)
         {
             HttpClient cliente = new HttpClient();
             Task<HttpResponseMessage> tarea = null;
-
+            cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             if (verbo == "GET")
             {
                 tarea = cliente.GetAsync(url);

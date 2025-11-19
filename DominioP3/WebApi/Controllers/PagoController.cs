@@ -1,6 +1,7 @@
 ﻿using LogicaDeAplicacion.DTOs;
 using LogicaDeAplicacion.InterfacesCU.Pago;
 using LogicaDeNegocio.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        //[Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult<IEnumerable<PagoDTO>> ObtenerPagos()
         {
             return Ok(_obtenerPagos.ObtenerPagos());
