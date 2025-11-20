@@ -1,5 +1,6 @@
 ﻿using LogicaDeAplicacion.DTOs;
 using LogicaDeAplicacion.InterfacesCU.Pago;
+using LogicaDeNegocio.Entidades;
 using LogicaDeNegocio.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,12 +27,11 @@ namespace WebApi.Controllers
            _obtenerPagoPorId = obtenerPagoPorId;
            _agregarPago = agregarPago;
            _obtenerPagos = obtenerPagos;
-            _obtenerPagosPorUsuario = pagosPorUsuario;
+           _obtenerPagosPorUsuario = pagosPorUsuario;
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
-        [Authorize]
+        //[Authorize]
         public ActionResult<IEnumerable<PagoDTO>> ObtenerPagos()
         {
             return Ok(_obtenerPagos.ObtenerPagos());
@@ -39,6 +39,7 @@ namespace WebApi.Controllers
 
         //GET api/pagos/5
         [HttpGet("{id}", Name="PagoPorId")]
+        [Authorize]
         public ActionResult GetPagoById(int id)
         {
             try
@@ -52,31 +53,38 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { mensaje = "Error interno del servidor.", detalle = ex.Message });
+                return StatusCode(500, "Error interno del servidor.");
             }
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult AltaPago([FromBody] PagoDTO? pago)
         {
             if (pago == null) return BadRequest("No se proporcionarion los datos para el alta");
             
             try
             {
-                _agregarPago.AltaPago(pago, 1);
-               
+                var claimId = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (claimId == null) return Unauthorized("Token inválido: no contiene el ID del usuario.");
+                
+                int userId = int.Parse(claimId.Value);
+                int idPago = _agregarPago.AltaPago(pago, userId);
+                pago.Id = idPago;
+
             }catch(PagoException pex) 
             { 
                 return BadRequest(pex.Message);
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, ex.Message);
             }
 
             return CreatedAtRoute("PagoPorId", new { id = pago.Id }, pago);
         }
+
+
         [HttpGet("PagosDelUsuario")]
         [Authorize(Roles = "EMPLEADO,GERENTE")]
         public ActionResult<IEnumerable<PagoDTO>> ObtenerMisPagos()

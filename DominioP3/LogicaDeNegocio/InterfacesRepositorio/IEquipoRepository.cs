@@ -9,5 +9,6 @@ namespace LogicaDeNegocio.InterfacesRepositorio
 {
     public interface IEquipoRepository: IRepository<Equipo>
     {
+        public IEnumerable<Equipo> EquiposSegunMontoDePagoUnico(decimal monto);
     }
 }

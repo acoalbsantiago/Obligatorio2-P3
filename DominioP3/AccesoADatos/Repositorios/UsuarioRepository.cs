@@ -42,7 +42,10 @@ namespace AccesoADatos.Repositorios
 
         public Usuario FindById(int id)
         {
-            throw new NotImplementedException();
+            Usuario usuario = _context.Usuario.FirstOrDefault(user => user.Id == id);
+
+            if (usuario == null) throw new UsuarioException("No se encontro usuario con ese ID");
+            return usuario;
         }
 
         public IEnumerable<Usuario> GetAll()

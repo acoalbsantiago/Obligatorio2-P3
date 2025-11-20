@@ -19,11 +19,14 @@ namespace LogicaDeAplicacion.CasosDeUso.Pago
         {
             _repo = repo;
         }
-        public void AltaPago(PagoDTO nuevoPago, int idUsuario)
+        public int AltaPago(PagoDTO nuevoPago, int idUsuario)
         {
             try
             {
-                _repo.Add(PagoMapper.FromDTO(nuevoPago, idUsuario));
+                var pago = PagoMapper.FromDTO(nuevoPago, idUsuario);
+                _repo.Add(pago);
+                Console.WriteLine(pago.Id);
+                return pago.Id;
             }
             catch (PagoException)
             {

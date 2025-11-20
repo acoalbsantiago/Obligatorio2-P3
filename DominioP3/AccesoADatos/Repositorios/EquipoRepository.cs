@@ -18,9 +18,22 @@ namespace AccesoADatos.Repositorios
             _context = context;
         }
 
+
         public void Add(Equipo value)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Equipo> EquiposSegunMontoDePagoUnico(decimal monto)
+        {
+            IEnumerable< Equipo> equipos = _context.pagos
+                                           .OfType<PagoUnico>()
+                                           .Where(p => p.MontoTotal > monto)
+                                           .Select(p => p.Usuario.Equipo)
+                                           .Distinct()
+                                           .OrderByDescending(e => e.Nombre)
+                                           .ToList();
+            return equipos;
         }
 
         public Equipo FindById(int id)
@@ -40,7 +53,7 @@ namespace AccesoADatos.Repositorios
 
         public void Update(Equipo value)
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
     }
 }

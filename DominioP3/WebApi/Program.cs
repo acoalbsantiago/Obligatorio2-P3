@@ -1,8 +1,12 @@
 
 using AccesoADatos.EF;
 using AccesoADatos.Repositorios;
+using LogicaDeAplicacion.CasosDeUso.Auditoria;
+using LogicaDeAplicacion.CasosDeUso.Equipo;
 using LogicaDeAplicacion.CasosDeUso.Pago;
 using LogicaDeAplicacion.CasosDeUso.Usuario;
+using LogicaDeAplicacion.InterfacesCU.Auditoria;
+using LogicaDeAplicacion.InterfacesCU.Equipo;
 using LogicaDeAplicacion.InterfacesCU.Pago;
 using LogicaDeAplicacion.InterfacesCU.Usuario;
 using LogicaDeNegocio.InterfacesRepositorio;
@@ -46,20 +50,31 @@ namespace WebApi
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("MiDB"))
             );
             //$Env:ASPNETCORE_ENVIRONMENT = "Home"
-            Console.WriteLine($"Entorno actual: {builder.Environment.EnvironmentName}");
-            Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionString("MiDB")}");
-
+            //Console.WriteLine($"Entorno actual: {builder.Environment.EnvironmentName}");
+            //Console.WriteLine($"Connection string: {builder.Configuration.GetConnectionString("MiDB")}");
+            
+            //Repositorios DI
             builder.Services.AddScoped<IPagoRepository, PagoRepository>();
             builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            // Add services to the container.
+            builder.Services.AddScoped<IEquipoRepository, EquipoRepository>();
+            builder.Services.AddScoped<IAuditoriaRepositorio, AuditoriaRepositorio>();
+
             //PagoDI
             builder.Services.AddScoped<IObtenerPagoPorId, ObtenerPagoPorIdCU>();
             builder.Services.AddScoped<IAgregarPago, AgregarPagoCU>();
             builder.Services.AddScoped<IObtenerPagos, ObtenerPagosCU>();
             builder.Services.AddScoped<IObtenerPagosPorUsuario,ObtenerPagosPorUsuarioCU>();
+
+            //Auditoria DI
+            builder.Services.AddScoped<IObtenerAuditoriaPorId, ObtenerAuditoriaPorIdCU>();
+
+            //Equipo DI
+            builder.Services.AddScoped<IObtenerEquiposSegunMontoDePagoUnico, ObtenerEquiposSegunMontoDePagoUnicoCU>();
+            
             //Usuario-Home DI
             builder.Services.AddScoped<ILogin, LoginCU>();
             builder.Services.AddScoped<IResetearPassword, ResetearPasswordCU>();
+            
             //TokenHandler DI
             builder.Services.AddScoped<TokenHandler>();
             var app = builder.Build();

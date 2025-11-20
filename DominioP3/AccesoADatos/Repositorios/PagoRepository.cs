@@ -88,7 +88,7 @@ namespace AccesoADatos.Repositorios
 
         public void Update(Pago value)
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
     }
 }

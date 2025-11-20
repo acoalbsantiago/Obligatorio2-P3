@@ -9,6 +9,6 @@ namespace LogicaDeAplicacion.InterfacesCU.Pago
 {
     public interface IAgregarPago
     {
-        public void AltaPago(PagoDTO nuevoPago, int usuarioLogueado);
+        public int AltaPago(PagoDTO nuevoPago, int usuarioLogueado);
     }
 }

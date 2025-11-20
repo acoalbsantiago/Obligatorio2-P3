@@ -24,5 +24,11 @@ namespace AccesoADatos.Repositorios
             _context.SaveChanges();
         }
 
+        public IEnumerable<AuditoriaTipoDeGasto> AuditoriasSegunTipoDeGasto(int tipoDeGastoId)
+        {
+            return  _context.AuditoriaTipoDeGasto
+                                                  .Where(auditoria => auditoria.TipoDeGastoId == tipoDeGastoId)
+                                                  .ToList();          
+        }
     }
 }

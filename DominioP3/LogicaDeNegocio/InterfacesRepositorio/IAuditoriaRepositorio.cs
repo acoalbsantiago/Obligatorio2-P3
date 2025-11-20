@@ -10,5 +10,6 @@ namespace LogicaDeNegocio.InterfacesRepositorio
     public interface IAuditoriaRepositorio
     {
         public void Add(AuditoriaTipoDeGasto auditoria);
+        public IEnumerable<AuditoriaTipoDeGasto> AuditoriasSegunTipoDeGasto(int tipoDeGastoId);
     }
 }

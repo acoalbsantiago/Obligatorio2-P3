@@ -1,0 +1,41 @@
+﻿@using clienteMVC.Enums
+@model clienteMVC.DTOs.PagoDTO
+
+
+@{
+   ViewData["Title"] = "Details";
+}
+
+@if(Model == null)
+{
+    <span>Error Wey</span>
+}
+else
+{
+    
+
+
+<h2>Detalles del Pago</h2>
+
+<div>
+    <p><strong>ID:</strong> @Model.Id</p>
+    <p><strong>Método de Pago:</strong> @Model.MetodoDePago</p>
+    <p><strong>Tipo de Pago:</strong> @Model.TipoDePago</p>
+    <p><strong>Descripción:</strong> @Model.Descripcion</p>
+    <p><strong>Monto Total:</strong> @Model.MontoTotal</p>
+    <p><strong>Tipo de Gasto:</strong> @Model.TipoDeGastoId</p>
+
+    @if (Model.TipoDePago == TipoDePago.Unico)
+    {
+        <p><strong>Fecha Pago:</strong> @Model.FechaPago</p>
+        <p><strong>Número Factura:</strong> @Model.NumFactura</p>
+    }
+
+    @if (Model.TipoDePago == TipoDePago.Recurrente)
+    {
+        <p><strong>Fecha Desde:</strong> @Model.FechaDesde</p>
+        <p><strong>Fecha Hasta:</strong> @Model.FechaHasta</p>
+    }
+</div>
+}
+<a asp-action="Index">Volver</a>

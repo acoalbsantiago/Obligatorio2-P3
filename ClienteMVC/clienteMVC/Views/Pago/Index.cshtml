@@ -6,6 +6,11 @@
 
 <h1>Pagos</h1>
 
+@if (!String.IsNullOrEmpty(ViewBag.Error))
+{
+    <span>@ViewBag.Error</span>
+}
+else{
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -94,3 +99,4 @@
         }
     </tbody>
 </table>
+}

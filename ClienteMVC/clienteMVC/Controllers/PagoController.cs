@@ -25,10 +25,10 @@ namespace clienteMVC.Controllers
 
             try
             {
-                string token = HttpContext.Session.GetString("token");
+                //string token = HttpContext.Session.GetString("token");
                 string url = $"{_urlApi}/Pago";
 
-                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, token);
+                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, null);
 
                 string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
 
@@ -49,9 +49,20 @@ namespace clienteMVC.Controllers
         }
 
         // GET: PagoController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
-            return View();
+            string url = $"{_urlApi}/Pago/{id}";
+            string token = HttpContext.Session.GetString("token");
+            
+            var response = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, token);
+            var body = AuxiliarClienteHttp.ObtenerBody(response);
+
+            if (!response.IsSuccessStatusCode){
+                ViewBag.Error = body;
+                return View("Index");
+            }
+            PagoDTO pago = JsonConvert.DeserializeObject<PagoDTO>(body);
+            return View(pago);
         }
 
         // GET: PagoController/Create
@@ -59,7 +70,7 @@ namespace clienteMVC.Controllers
         {
             return View();
         }
-
+        
         // POST: PagoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -68,14 +79,16 @@ namespace clienteMVC.Controllers
             try
             {
                 string url = $"{_urlApi}/Pago";
+                string token = HttpContext.Session.GetString("token");
 
-                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "POST", pago);
+                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "POST", pago, token);
 
                 string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
-                    return RedirectToAction(nameof(Index));
+                    var pagoCreado = JsonConvert.DeserializeObject<PagoDTO>(body);
+                    return RedirectToAction("Details", new { id = pagoCreado.Id });
                 }
                 else
                 {
