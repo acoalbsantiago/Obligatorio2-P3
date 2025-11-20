@@ -9,6 +9,7 @@ using LogicaDeNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace WebApi
@@ -30,7 +31,8 @@ namespace WebApi
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
                         ValidateIssuer = false,
-                        ValidateAudience = false
+                        ValidateAudience = false,
+                        RoleClaimType = ClaimTypes.Role
                     };
                 });
 
@@ -50,10 +52,14 @@ namespace WebApi
             builder.Services.AddScoped<IPagoRepository, PagoRepository>();
             builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             // Add services to the container.
+            //PagoDI
             builder.Services.AddScoped<IObtenerPagoPorId, ObtenerPagoPorIdCU>();
             builder.Services.AddScoped<IAgregarPago, AgregarPagoCU>();
             builder.Services.AddScoped<IObtenerPagos, ObtenerPagosCU>();
+            builder.Services.AddScoped<IObtenerPagosPorUsuario,ObtenerPagosPorUsuarioCU>();
+            //Usuario-Home DI
             builder.Services.AddScoped<ILogin, LoginCU>();
+            builder.Services.AddScoped<IResetearPassword, ResetearPasswordCU>();
             //TokenHandler DI
             builder.Services.AddScoped<TokenHandler>();
             var app = builder.Build();

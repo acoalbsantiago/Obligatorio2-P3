@@ -26,7 +26,7 @@ namespace WebApi
                     new Claim[]
                     {
                         new Claim(ClaimTypes.Email, dto.Email),
-                        new Claim(ClaimTypes.Name, dto.Nombre),
+                        new Claim(ClaimTypes.NameIdentifier, dto.Id.ToString()),
                         new Claim(ClaimTypes.Role, dto.Rol)
                     }
                 ),

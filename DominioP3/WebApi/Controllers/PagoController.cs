@@ -4,6 +4,7 @@ using LogicaDeNegocio.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace WebApi.Controllers
 {
@@ -14,15 +15,18 @@ namespace WebApi.Controllers
         private IObtenerPagoPorId _obtenerPagoPorId;
         private IAgregarPago _agregarPago;
         private IObtenerPagos _obtenerPagos;
+        private IObtenerPagosPorUsuario _obtenerPagosPorUsuario;
 
         public PagoController (IObtenerPagoPorId obtenerPagoPorId, 
                                IAgregarPago agregarPago,
-                               IObtenerPagos obtenerPagos
+                               IObtenerPagos obtenerPagos,
+                               IObtenerPagosPorUsuario pagosPorUsuario
         )
         {
            _obtenerPagoPorId = obtenerPagoPorId;
            _agregarPago = agregarPago;
            _obtenerPagos = obtenerPagos;
+            _obtenerPagosPorUsuario = pagosPorUsuario;
         }
 
         [HttpGet]
@@ -72,6 +76,33 @@ namespace WebApi.Controllers
             }
 
             return CreatedAtRoute("PagoPorId", new { id = pago.Id }, pago);
+        }
+        [HttpGet("PagosDelUsuario")]
+        [Authorize(Roles = "EMPLEADO,GERENTE")]
+        public ActionResult<IEnumerable<PagoDTO>> ObtenerMisPagos()
+        { 
+
+            try
+            {
+                var claimId = User.FindFirst(ClaimTypes.NameIdentifier);
+
+                if (claimId == null)
+                    return Unauthorized("Token inválido: no contiene el ID del usuario.");
+
+                int userId = int.Parse(claimId.Value);
+
+                IEnumerable<PagoDTO> pagos = _obtenerPagosPorUsuario.ObtenerPagosPorUsuario(userId);
+
+                if (pagos == null || !pagos.Any())
+                    return NotFound("No hay pagos asociados al usuario.");
+
+                return Ok(pagos);
+            }
+            catch (Exception ex)
+            {
+               
+                return StatusCode(500, "Error interno procesando la solicitud");
+            }
         }
 
     }

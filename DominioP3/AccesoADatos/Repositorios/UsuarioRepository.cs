@@ -83,7 +83,8 @@ namespace AccesoADatos.Repositorios
 
         public void Update(Usuario value)
         {
-            throw new NotImplementedException();
+            //value.Validar();
+            _context.SaveChanges();
         }
 
         public IEnumerable<Usuario> UsuariosSegunMontoDado(decimal monto)

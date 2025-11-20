@@ -61,6 +61,15 @@ namespace AccesoADatos.Repositorios
                         .Include(p => p.TipoDeGasto);
         }
 
+        public IEnumerable<Pago> ObtenerPagosDeUsuario(int usuarioId)
+        {
+            return _context.pagos
+                      .Include (p => p.Usuario)
+                      .Include(p => p.TipoDeGasto)
+                    .Where(pago => pago.UsuarioId == usuarioId)
+                    .ToList();
+        }   
+
         public IEnumerable<Pago> ObtenerPagosPorAnioYmes(int mes, int anio)
         {
 

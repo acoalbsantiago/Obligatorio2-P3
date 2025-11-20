@@ -53,8 +53,8 @@ namespace LogicaDeNegocio.Entidades
                 throw new UsuarioException("El nombre no puede estar vacío.");
             if (string.IsNullOrWhiteSpace(Apellido))
                 throw new UsuarioException("El apellido no puede estar vacío.");
-            if (string.IsNullOrWhiteSpace(Password))
-                throw new UsuarioException("Debe especificar una contraseña.");
+            if (string.IsNullOrWhiteSpace(Password) || Password.Length < 8)
+                throw new UsuarioException("Debe especificar una contraseña de 8 caracteres minimamente.");
         }
     }
 }

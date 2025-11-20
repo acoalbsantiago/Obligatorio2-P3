@@ -10,5 +10,6 @@ namespace LogicaDeNegocio.InterfacesRepositorio
     public interface IPagoRepository : IRepository<Pago>
     {
         public IEnumerable<Pago> ObtenerPagosPorAnioYmes(int mes, int año);
+        public IEnumerable<Pago> ObtenerPagosDeUsuario(int usuarioId);
     }
 }
