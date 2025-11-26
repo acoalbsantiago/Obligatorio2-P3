@@ -26,23 +26,30 @@ namespace clienteMVC.Controllers
         [HttpPost]
         public IActionResult Index(decimal monto)
         {
-            string url = $"{_urlApiEquipos}/{monto}";
-            string token = HttpContext.Session.GetString("token");
-            HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, token);
-            string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
-
-
-            if (!respuesta.IsSuccessStatusCode)
+            try
             {
-                ViewBag.Error = body;
+                string url = $"{_urlApiEquipos}/{monto}";
+                string token = HttpContext.Session.GetString("token");
+                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, token);
+                string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
+
+
+                if (!respuesta.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = body;
+                    return View();
+                }
+
+                IEnumerable<EquipoDTO> equipos = JsonConvert.DeserializeObject<IEnumerable<EquipoDTO>>(body);
+                ViewBag.Resultados = equipos;
                 return View();
             }
-
-            var equipos = JsonConvert.DeserializeObject<IEnumerable<EquipoDTO>>(body);
-            ViewBag.Resultados = equipos;
-            return View();
-
-
+            catch (Exception)
+            {
+                ViewBag.Error = "Error interno, intente mas tarde";
+                return View();
+            }
+           
         }
     }
 }

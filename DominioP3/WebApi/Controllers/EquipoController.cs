@@ -19,7 +19,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("ConPagosMayores/{monto}")]
-        //[Authorize(Roles = "GERENTE")]
+        [Authorize(Roles = "GERENTE")]
         public IActionResult ObtenerEquiposPorMontoDePagoUnico (decimal monto)
         {
             if (monto < 0) return BadRequest("El monto tiene que ser positivo");
@@ -27,12 +27,10 @@ namespace WebApi.Controllers
             {
                 return Ok(_obtenerEquiposSegunMonto.ObtenerEquiposSegunMontoDePagoUnico(monto));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, "Error interno del servidor.");
             }
         }
-
-
     }
 }

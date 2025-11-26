@@ -37,11 +37,9 @@ namespace WebApi.Controllers
             {
                 return NotFound(uex.Message);
             }
-            catch (Exception ex){
-                return StatusCode (500, ex.Message);
-            }
-                       
+            catch (Exception){
+                return StatusCode (500, "Error interno del servidor.");
+            }                      
         }
-
     }
 }

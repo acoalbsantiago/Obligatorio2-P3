@@ -7,7 +7,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "ADMINISTRADOR")]
     public class TipoDeGastoController : ControllerBase
     {
         private IObtenerAuditoriaPorId _auditorias;
@@ -23,11 +23,10 @@ namespace WebApi.Controllers
             {
                 return Ok(_auditorias.IObtenerAuditoriaPorId(id));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, ex.Message);
-            }
-           
+                return StatusCode(500, "Error interno del servidor.");
+            }           
         }
     }
 }

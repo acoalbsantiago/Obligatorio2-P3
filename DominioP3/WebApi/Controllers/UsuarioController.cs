@@ -9,7 +9,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "ADMINISTRADOR")]
     public class UsuarioController : ControllerBase
     {
         private IResetearPassword _resetearPassword;
@@ -27,7 +27,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("ResetPassword/{usuarioId}")]
-        [Authorize(Roles = "ADMINISTRADOR")]
+        
         public IActionResult ResetearPassword(int usuarioId)
         {
             try
@@ -35,11 +35,10 @@ namespace WebApi.Controllers
                 string nuevaPass = _resetearPassword.ResetearPassword(usuarioId);
                 return Ok(new {Password = nuevaPass });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, ex.Message);
-            }
-            
+                return StatusCode(500, "Error interno del servidor.");
+            }            
         }
     }
 }

@@ -53,18 +53,29 @@ namespace clienteMVC.Controllers
         // GET: PagoController/Details/5
         public IActionResult Details(int id)
         {
-            string url = $"{_urlApi}/Pago/{id}";
-            string token = HttpContext.Session.GetString("token");
-            
-            var response = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, token);
-            var body = AuxiliarClienteHttp.ObtenerBody(response);
+            try
+            {
+                string url = $"{_urlApi}/Pago/{id}";
+                string token = HttpContext.Session.GetString("token");
 
-            if (!response.IsSuccessStatusCode){
-                ViewBag.Error = body;
+                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, token);
+                string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
+
+                if (!respuesta.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = body;
+                    return View("Index");
+                }
+                PagoDTO pago = JsonConvert.DeserializeObject<PagoDTO>(body);
+                return View(pago);
+            }
+            catch (Exception)
+            {
+
+                ViewBag.Error = "Error interno, intente mas tarde";
                 return View("Index");
             }
-            PagoDTO pago = JsonConvert.DeserializeObject<PagoDTO>(body);
-            return View(pago);
+           
         }
 
         // GET: PagoController/Create
@@ -87,17 +98,16 @@ namespace clienteMVC.Controllers
 
                 string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
 
-                if (respuesta.IsSuccessStatusCode)
+                if (!respuesta.IsSuccessStatusCode)
                 {
-                    var pagoCreado = JsonConvert.DeserializeObject<PagoDTO>(body);
-                    return RedirectToAction("Details", new { id = pagoCreado.Id });
+                    ViewBag.Error = body;
+                    return View(pago);
                 }
-                else
-                {
-                    ViewBag.Error = body; 
-                    return View(pago);      
-                }
+
+                PagoDTO pagoCreado = JsonConvert.DeserializeObject<PagoDTO>(body);
+                return RedirectToAction("Details", new { id = pagoCreado.Id });
             }
+
             catch
             {
                 ViewBag.Error = "Error interno, intente mas tarde";
@@ -108,20 +118,27 @@ namespace clienteMVC.Controllers
         [HttpGet]
         public IActionResult MisPagos()
         {
-            string token = HttpContext.Session.GetString("token");
-            string url = $"{_urlApi}/Pago/PagosDelUsuario";
-
-            HttpResponseMessage resp = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, token);
-            string body = AuxiliarClienteHttp.ObtenerBody(resp);
-
-            if (!resp.IsSuccessStatusCode)
+            try
             {
-                ViewBag.Error = body;
-                return View();
+                string token = HttpContext.Session.GetString("token");
+                string url = $"{_urlApi}/Pago/PagosDelUsuario";
+                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, token);
+                string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
+
+                if (!respuesta.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = body;
+                    return View();
+                }
+
+                IEnumerable<PagoDTO> pagos = JsonConvert.DeserializeObject<IEnumerable<PagoDTO>>(body);
+                return View(pagos);
             }
-         
-            var pagos = JsonConvert.DeserializeObject<IEnumerable<PagoDTO>>(body);
-            return View(pagos);
+            catch (Exception)
+            {
+                ViewBag.Error = "Error interno, intente mas tarde";
+                return View();
+            }          
         }
     }
 }

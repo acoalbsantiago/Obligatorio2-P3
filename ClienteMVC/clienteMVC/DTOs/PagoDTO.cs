@@ -30,7 +30,6 @@ namespace clienteMVC.DTOs
         public int? NumFactura { get; set; }
         public decimal? SaldoPendiente { get; set; }
 
-
         public PagoDTO() { }
     }
 }

@@ -1,16 +1,16 @@
 ﻿@using clienteMVC.Enums
 @model clienteMVC.DTOs.PagoDTO
 
-
 @{
    ViewData["Title"] = "Details";
 }
 
 @if(!String.IsNullOrEmpty(ViewBag.Error) || Model == null)
 {
-    <div class="alert alert-danger">
+    <div class="alert alert-danger w-50">
         @ViewBag.Error
     </div>
+}
 }
 else
 {
@@ -37,4 +37,5 @@ else
     }
 </div>
 }
-<a asp-controller="Home"  asp-action="Index">Volver</a>
+
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary">Volver</a>

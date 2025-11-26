@@ -5,20 +5,23 @@
 
 <h2>Auditoría de Tipo de Gasto</h2>
 
-<form method="post">
+@if (!String.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger w-50">
+        @ViewBag.Error
+    </div>
+}
+
+
+<form  method="post">
     <label>Ingrese el ID del Tipo de Gasto:</label>
-    <input type="number" name="tipoDeGastoId" class="form-control" required />
+    <input type="number" name="tipoDeGastoId" class="form-control w-50" required />
 
     <br />
-    <button type="submit" class="btn btn-primary">Buscar</button>
+    <button type="submit" class="btn btn-primary w-50">Buscar</button>
 </form>
 
 <hr />
-
-@if (ViewBag.Error != null)
-{
-    <p class="text-danger">@ViewBag.Error</p>
-}
 
 @if (ViewBag.Resultados != null)
 {
@@ -26,7 +29,7 @@
 
     if (!lista.Any())
     {
-        <p class="text-warning">No hay auditorías para este Tipo de Gasto.</p>
+        <p>No hay auditorías para este Tipo de Gasto.</p>
     }
     else
     {

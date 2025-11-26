@@ -4,13 +4,12 @@
 
 @if(!String.IsNullOrEmpty(ViewBag.Error) || Model == null)
 {
-    <p>@ViewBag.Error</p>
+    <div class="alert alert-danger w-50">
+        @ViewBag.Error
+    </div>
 }
-else
-{
-   
 
-
+else{
 <form method="post" asp-action="Reset">
     <label>Seleccione usuario:</label>
     <select name="id" class="form-control">

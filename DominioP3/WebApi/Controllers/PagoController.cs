@@ -32,15 +32,12 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
         public ActionResult<IEnumerable<PagoDTO>> ObtenerPagos()
         {
             return Ok(_obtenerPagos.ObtenerPagos());
         }
 
-        //GET api/pagos/5
         [HttpGet("{id}", Name="PagoPorId")]
-        [Authorize]
         public ActionResult GetPagoById(int id)
         {
             try
@@ -52,14 +49,13 @@ namespace WebApi.Controllers
 
                 return Ok(pago);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, "Error interno del servidor.");
             }
         }
 
         [HttpPost]
-        [Authorize]
         public ActionResult AltaPago([FromBody] PagoDTO? pago)
         {
             if (pago == null) return BadRequest("No se proporcionarion los datos para el alta");
@@ -77,20 +73,17 @@ namespace WebApi.Controllers
             { 
                 return BadRequest(pex.Message);
             }
-            catch
+            catch(Exception)
             {
                 return StatusCode(500, "Error interno en el servidor");
             }
-
             return CreatedAtRoute("PagoPorId", new { id = pago.Id }, pago);
         }
-
 
         [HttpGet("PagosDelUsuario")]
         [Authorize(Roles = "EMPLEADO,GERENTE")]
         public ActionResult<IEnumerable<PagoDTO>> ObtenerMisPagos()
         { 
-
             try
             {
                 var claimId = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -107,13 +100,11 @@ namespace WebApi.Controllers
 
                 return Ok(pagos);
             }
-            catch (Exception ex)
-            {
-               
+            catch (Exception)
+            {               
                 return StatusCode(500, "Error interno procesando la solicitud");
             }
         }
-
     }
 }
     

@@ -39,7 +39,6 @@ namespace AccesoADatos.Repositorios
             }
            
         }
-
         public Usuario FindById(int id)
         {
             Usuario usuario = _context.Usuario.FirstOrDefault(user => user.Id == id);
@@ -55,19 +54,6 @@ namespace AccesoADatos.Repositorios
 
         public Usuario Login(string email, string pass)
         {
-            //foreach(Usuario usuario in _context.Usuario)
-            //{
-            //    if (usuario.Email.Correo == email)
-            //    {
-            //        if (usuario.Password == pass)
-            //        {
-            //            return usuario;
-            //        }
-            //        throw new UsuarioException("Nombre de usuario o contraseña incorrecta");
-            //    }
-            //}
-            //throw new UsuarioException("Nombre de usuario o contraseña incorrecta");
-
             Usuario logueado = _context.Usuario.Where(
                 user => user.Password == pass &&
                         user.Email.Correo == email

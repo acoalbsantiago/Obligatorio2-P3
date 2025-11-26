@@ -6,16 +6,11 @@
 }
 @if (!string.IsNullOrWhiteSpace(ViewBag.Error))
 {
-    <div class="alert alert-danger">
+    <div class="alert alert-danger w-50">
         @ViewBag.Error
     </div>
 }
-@if (!string.IsNullOrWhiteSpace(ViewBag.Mensaje))
-{
-    <div class="alert alert-success">
-        @ViewBag.Mensaje
-    </div>
-}
+
 
 <h1>Alta Pago</h1>
 <hr />
@@ -87,7 +82,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Crear</button>
+            <button type="submit" class="btn w-100 mt-2 btn-primary">Crear</button>
         </form>
     </div>
 </div>

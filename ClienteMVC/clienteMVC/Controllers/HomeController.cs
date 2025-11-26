@@ -52,21 +52,22 @@ namespace clienteMVC.Controllers
                 if (respuesta.IsSuccessStatusCode)
                 {
                     usuario = JsonConvert.DeserializeObject<UsuarioDTO>(body);
+                    HttpContext.Session.SetString("email", usuario.Email);
+                    HttpContext.Session.SetInt32("usuarioId", usuario.Id);
+                    HttpContext.Session.SetString("rol", usuario.Rol);
+                    HttpContext.Session.SetString("token", usuario.Token);
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ViewBag.Mensaje = body;
+                    ViewBag.Error = body;
+                    return View();
                 }
-
-                HttpContext.Session.SetString("email", usuario.Email);
-                HttpContext.Session.SetInt32("usuarioId", usuario.Id);
-                HttpContext.Session.SetString("rol", usuario.Rol);
-                HttpContext.Session.SetString("token", usuario.Token);
-                return RedirectToAction("Index", "Home");
+                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ViewBag.Error = "Sucedio un error inesperado";
+                ViewBag.Error = "Error interno, intente mas tarde";
                 return View();
             }
         }

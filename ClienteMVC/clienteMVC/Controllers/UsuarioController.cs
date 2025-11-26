@@ -40,9 +40,9 @@ namespace clienteMVC.Controllers
                 var usuarios = JsonConvert.DeserializeObject<IEnumerable<UsuarioDTO>>(body);
                 return View(usuarios);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ViewBag.Error = ex.Message ;
+                ViewBag.Error = "Error interno, intente mas tarde";
                 return View();
             }        
         }
@@ -76,9 +76,9 @@ namespace clienteMVC.Controllers
 
                 return View(usuariosOk);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ViewBag.Error = ex.Message;
+                ViewBag.Error = "Error interno, intente mas tarde";
                 return View();
             }          
         }   
