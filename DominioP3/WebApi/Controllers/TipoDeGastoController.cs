@@ -1,4 +1,5 @@
 ﻿using LogicaDeAplicacion.InterfacesCU.Auditoria;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TipoDeGastoController : ControllerBase
     {
         private IObtenerAuditoriaPorId _auditorias;

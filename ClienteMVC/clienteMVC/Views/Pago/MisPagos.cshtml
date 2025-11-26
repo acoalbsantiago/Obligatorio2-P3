@@ -1,0 +1,90 @@
+﻿@model IEnumerable<clienteMVC.DTOs.PagoDTO>
+
+<h2>Mis Pagos</h2>
+
+@if (!String.IsNullOrEmpty(ViewBag.Error) || Model == null){
+    <p>@ViewBag.Error</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MetodoDePago)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TipoDeGasto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UsuarioId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MontoTotal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TipoDePago)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaDesde)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaHasta)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaPago)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumFactura)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MetodoDePago)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoDeGasto.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsuarioId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MontoTotal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoDePago)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaDesde)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaHasta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaPago)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumFactura)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

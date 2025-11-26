@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using Newtonsoft.Json;
+using clienteMVC.Filters;
 
 
 namespace clienteMVC.Controllers
 {
+    [LogueadoFilter]
     public class PagoController : Controller
 
     {
@@ -19,34 +21,34 @@ namespace clienteMVC.Controllers
         }
 
         // GET: PagoController
-        public ActionResult Index()
-        {
-            IEnumerable<PagoDTO> pagos = new List<PagoDTO>();
+        //public ActionResult Index()
+        //{
+        //    IEnumerable<PagoDTO> pagos = new List<PagoDTO>();
 
-            try
-            {
-                //string token = HttpContext.Session.GetString("token");
-                string url = $"{_urlApi}/Pago";
+        //    try
+        //    {
+        //        //string token = HttpContext.Session.GetString("token");
+        //        string url = $"{_urlApi}/Pago";
 
-                HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, null);
+        //        HttpResponseMessage respuesta = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, null);
 
-                string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
+        //        string body = AuxiliarClienteHttp.ObtenerBody(respuesta);
 
-                if (respuesta.IsSuccessStatusCode)
-                {
-                    pagos = JsonConvert.DeserializeObject<IEnumerable<PagoDTO>>(body);
-                }else
-                {
-                   ViewBag.Mensaje = body;
-                }
-            }
-            catch (Exception)
-            {
-                ViewBag.Mensaje = "Ocurrió un error inesperado. Intente de nuevo más tarde.";
-            }
+        //        if (respuesta.IsSuccessStatusCode)
+        //        {
+        //            pagos = JsonConvert.DeserializeObject<IEnumerable<PagoDTO>>(body);
+        //        }else
+        //        {
+        //           ViewBag.Mensaje = body;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        ViewBag.Mensaje = "Ocurrió un error inesperado. Intente de nuevo más tarde.";
+        //    }
 
-            return View(pagos);
-        }
+        //    return View(pagos);
+        //}
 
         // GET: PagoController/Details/5
         public IActionResult Details(int id)
@@ -92,58 +94,34 @@ namespace clienteMVC.Controllers
                 }
                 else
                 {
-                    ViewBag.Mensaje = body; 
+                    ViewBag.Error = body; 
                     return View(pago);      
                 }
             }
-            catch (Exception)
-            {
-                ViewBag.Mensaje = "Ocurrió un error inesperado. Intente de nuevo más tarde.";
-                return View(pago);
-            }
-        }
-
-        // GET: PagoController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: PagoController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                
-                return RedirectToAction(nameof(Index));
-            }
             catch
             {
+                ViewBag.Error = "Error interno, intente mas tarde";
                 return View();
             }
         }
-
-        // GET: PagoController/Delete/5
-        public ActionResult Delete(int id)
+        [EmpYGerenteFilter]
+        [HttpGet]
+        public IActionResult MisPagos()
         {
-            return View();
-        }
+            string token = HttpContext.Session.GetString("token");
+            string url = $"{_urlApi}/Pago/PagosDelUsuario";
 
-        // POST: PagoController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            HttpResponseMessage resp = AuxiliarClienteHttp.EnviarSolicitud(url, "GET", null, token);
+            string body = AuxiliarClienteHttp.ObtenerBody(resp);
+
+            if (!resp.IsSuccessStatusCode)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
+                ViewBag.Error = body;
                 return View();
             }
+         
+            var pagos = JsonConvert.DeserializeObject<IEnumerable<PagoDTO>>(body);
+            return View(pagos);
         }
     }
 }

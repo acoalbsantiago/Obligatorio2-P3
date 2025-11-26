@@ -32,7 +32,11 @@ namespace clienteMVC.Controllers
         public IActionResult Login(string email, string password)
         {
 
-
+            if(email == null || password == null)
+            {
+                ViewBag.Error = "Datos incorrectos";
+                return View();
+            }
             UsuarioDTO usuario = null;
 
             try
@@ -58,13 +62,19 @@ namespace clienteMVC.Controllers
                 HttpContext.Session.SetInt32("usuarioId", usuario.Id);
                 HttpContext.Session.SetString("rol", usuario.Rol);
                 HttpContext.Session.SetString("token", usuario.Token);
-                return RedirectToAction("Index", "Pago");
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
                 ViewBag.Error = "Sucedio un error inesperado";
                 return View();
             }
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Home");
         }
     }
 }

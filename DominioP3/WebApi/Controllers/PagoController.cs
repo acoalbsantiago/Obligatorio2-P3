@@ -11,6 +11,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PagoController : ControllerBase
     {
         private IObtenerPagoPorId _obtenerPagoPorId;
@@ -76,9 +77,9 @@ namespace WebApi.Controllers
             { 
                 return BadRequest(pex.Message);
             }
-            catch (Exception ex)
+            catch
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(500, "Error interno en el servidor");
             }
 
             return CreatedAtRoute("PagoPorId", new { id = pago.Id }, pago);

@@ -1,0 +1,51 @@
+﻿@using clienteMVC.DTOs
+@{
+    ViewBag.Title = "Equipos que superan monto";
+}
+
+<h2>Equipos:</h2>
+
+<form method="post">
+    <label>Ingrese monto:</label>
+    <input type="number" name="monto" class="form-control" required />
+
+    <br />
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
+
+
+@if (ViewBag.Error != null)
+{
+    <p class="text-danger">@ViewBag.Error</p>
+}
+
+@if (ViewBag.Resultados != null)
+{
+    var lista = ViewBag.Resultados as IEnumerable<EquipoDTO>;
+
+    if (!lista.Any())
+    {
+        <p class="text-warning">No hay equipos que superen el monto dado.</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in lista)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                       <td>@item.Nombre</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}

@@ -74,6 +74,7 @@ namespace WebApi
             //Usuario-Home DI
             builder.Services.AddScoped<ILogin, LoginCU>();
             builder.Services.AddScoped<IResetearPassword, ResetearPasswordCU>();
+            builder.Services.AddScoped<IObtenerUsuarios, ObtenerUsuariosCU>();
             
             //TokenHandler DI
             builder.Services.AddScoped<TokenHandler>();

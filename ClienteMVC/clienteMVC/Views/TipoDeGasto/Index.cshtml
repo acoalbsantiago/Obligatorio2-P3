@@ -1,0 +1,53 @@
+﻿@using clienteMVC.DTOs
+@{
+    ViewBag.Title = "Auditoría de Tipos de Gasto";
+}
+
+<h2>Auditoría de Tipo de Gasto</h2>
+
+<form method="post">
+    <label>Ingrese el ID del Tipo de Gasto:</label>
+    <input type="number" name="tipoDeGastoId" class="form-control" required />
+
+    <br />
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
+<hr />
+
+@if (ViewBag.Error != null)
+{
+    <p class="text-danger">@ViewBag.Error</p>
+}
+
+@if (ViewBag.Resultados != null)
+{
+    var lista = ViewBag.Resultados as IEnumerable<AuditoriaDTO>;
+
+    if (!lista.Any())
+    {
+        <p class="text-warning">No hay auditorías para este Tipo de Gasto.</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Acción</th>
+                    <th>Fecha</th>
+                    <th>ID Usuario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in lista)
+                {
+                    <tr>
+                        <td>@item.Accion</td>
+                        <td>@item.Fecha.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@item.UsuarioId</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}

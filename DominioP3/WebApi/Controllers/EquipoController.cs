@@ -8,6 +8,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EquipoController : ControllerBase
     {
         private IObtenerEquiposSegunMontoDePagoUnico _obtenerEquiposSegunMonto;

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<clienteMVC.DTOs.UsuarioDTO>
+
+<h2>Resetear contraseña</h2>
+
+@if(!String.IsNullOrEmpty(ViewBag.Error) || Model == null)
+{
+    <p>@ViewBag.Error</p>
+}
+else
+{
+   
+
+
+<form method="post" asp-action="Reset">
+    <label>Seleccione usuario:</label>
+    <select name="id" class="form-control">
+        @foreach (var u in Model)
+        {
+            <option value="@u.Id">@u.Email (@u.Rol)</option>
+        }
+    </select>
+
+    <br />
+    <button type="submit" class="btn btn-danger">Resetear contraseña</button>
+</form>
+}
+
+<span>@ViewBag.Mensaje</span>

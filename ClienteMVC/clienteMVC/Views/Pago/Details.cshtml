@@ -6,15 +6,14 @@
    ViewData["Title"] = "Details";
 }
 
-@if(Model == null)
+@if(!String.IsNullOrEmpty(ViewBag.Error) || Model == null)
 {
-    <span>Error Wey</span>
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
 }
 else
 {
-    
-
-
 <h2>Detalles del Pago</h2>
 
 <div>
@@ -38,4 +37,4 @@ else
     }
 </div>
 }
-<a asp-action="Index">Volver</a>
+<a asp-controller="Home"  asp-action="Index">Volver</a>
