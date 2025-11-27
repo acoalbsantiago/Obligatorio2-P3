@@ -29,6 +29,10 @@ namespace LogicaDeNegocio.Entidades
 
             if (FechaPago > DateTime.Now)
                 throw new PagoException("Debe ingresar una fecha anterior o igual a hoy.");
+            if (FechaPago == null)
+                throw new PagoException("La fecha es obligatoria");
+            if (NumFactura == null)
+                throw new PagoException("El nro de factura es obligatorio");
         }
 
         public override bool PerteneceAlMes(int mes, int anio)

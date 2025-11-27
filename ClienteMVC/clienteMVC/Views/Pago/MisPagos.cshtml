@@ -2,12 +2,14 @@
 
 <h2>Mis Pagos</h2>
 
+
 @if (!String.IsNullOrEmpty(ViewBag.Error) || Model == null){
 
-    <div class="alert alert-danger w-50">
+   <div class="alert alert-danger w-50">
         @ViewBag.Error
     </div>
 }
+
 else
 {
     <table class="table">

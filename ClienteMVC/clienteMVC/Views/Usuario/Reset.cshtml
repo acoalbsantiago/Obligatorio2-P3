@@ -12,7 +12,7 @@
 else{
 <form method="post" asp-action="Reset">
     <label>Seleccione usuario:</label>
-    <select name="id" class="form-control">
+    <select name="id" class="form-control w-50">
         @foreach (var u in Model)
         {
             <option value="@u.Id">@u.Email (@u.Rol)</option>
@@ -20,7 +20,7 @@ else{
     </select>
 
     <br />
-    <button type="submit" class="btn btn-danger">Resetear contraseña</button>
+    <button type="submit" class="btn btn-primary">Resetear contraseña</button>
 </form>
 }
 

@@ -21,12 +21,15 @@ namespace clienteMVC.DTOs
         public TipoDePago TipoDePago { get; set; }
 
         //si pago es recurrente
+        [Required(ErrorMessage = "La fecha es obligatoria.")]
         public DateTime? FechaDesde { get; set; }
+        [Required(ErrorMessage = "La fecha es obligatoria.")]
         public DateTime? FechaHasta { get; set; }
 
         //si es pago unico
-        //[Required(ErrorMessage = "La fecha es obligatoria.")]
+        [Required(ErrorMessage = "La fecha es obligatoria.")]
         public DateTime? FechaPago { get; set; }
+        [Required(ErrorMessage = "El Nro de factura es obligatoria.")]
         public int? NumFactura { get; set; }
         public decimal? SaldoPendiente { get; set; }
 

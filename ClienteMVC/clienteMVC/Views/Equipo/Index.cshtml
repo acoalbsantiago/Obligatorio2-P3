@@ -22,7 +22,7 @@
 
 @if (ViewBag.Resultados != null)
 {
-    var lista = ViewBag.Resultados as IEnumerable<EquipoDTO>;
+    IEnumerable<EquipoDTO> lista = ViewBag.Resultados as IEnumerable<EquipoDTO>;
 
     if (!lista.Any())
     {
