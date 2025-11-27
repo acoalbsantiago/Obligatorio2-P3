@@ -33,8 +33,6 @@ namespace AccesoADatos.EF
 
                 e.HasIndex(p => p.Correo).IsUnique();
             });
-
         }
-
     }
 }

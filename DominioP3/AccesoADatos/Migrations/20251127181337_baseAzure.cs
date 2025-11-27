@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AccesoADatos.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class baseAzure : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

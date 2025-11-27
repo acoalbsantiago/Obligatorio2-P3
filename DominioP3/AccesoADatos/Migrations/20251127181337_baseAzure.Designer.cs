@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AccesoADatos.Migrations
 {
     [DbContext(typeof(ObligatorioContext))]
-    [Migration("20251126030454_test")]
-    partial class test
+    [Migration("20251127181337_baseAzure")]
+    partial class baseAzure
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
