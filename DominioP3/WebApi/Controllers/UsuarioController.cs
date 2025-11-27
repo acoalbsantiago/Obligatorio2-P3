@@ -20,14 +20,18 @@ namespace WebApi.Controllers
             _obtenerUsuarios = obtenerUsuarios;
         }
 
+        [ProducesResponseType(typeof(IEnumerable<UsuarioDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
         public ActionResult<IEnumerable<UsuarioDTO>> ObtenerUsuarios()
         {
             return Ok(_obtenerUsuarios.ObtenerUsuarios());
         }
 
+
+        [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("ResetPassword/{usuarioId}")]
-        
         public IActionResult ResetearPassword(int usuarioId)
         {
             try

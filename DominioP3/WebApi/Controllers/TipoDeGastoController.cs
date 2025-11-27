@@ -16,6 +16,8 @@ namespace WebApi.Controllers
             _auditorias = auditorias;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("AuditoriaSegunTipoDeGasto/{id}")]
         public IActionResult ObtenerAuditorias(int id)
         {

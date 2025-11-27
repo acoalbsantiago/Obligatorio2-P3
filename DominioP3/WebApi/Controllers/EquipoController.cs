@@ -18,6 +18,10 @@ namespace WebApi.Controllers
             _obtenerEquiposSegunMonto = obtenerEquiposSegunMonto;
         }
 
+        [ProducesResponseType(typeof(IEnumerable<EquipoDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("ConPagosMayores/{monto}")]
         [Authorize(Roles = "GERENTE")]
         public IActionResult ObtenerEquiposPorMontoDePagoUnico (decimal monto)

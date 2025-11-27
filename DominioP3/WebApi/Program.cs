@@ -13,6 +13,7 @@ using LogicaDeNegocio.InterfacesRepositorio;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text;
 
@@ -43,7 +44,17 @@ namespace WebApi
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(opciones =>
+            {
+                
+                opciones.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Documentación de ObligatorioP3 Api",
+                    Description = "Aqui se encuentran todos los endpoint activos para utilizar en el proyecto",
+                    Version = "v1"
+                });
+
+            });
 
 
             builder.Services.AddDbContext<DbContext, ObligatorioContext>(

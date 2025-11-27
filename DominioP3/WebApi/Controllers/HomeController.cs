@@ -19,7 +19,12 @@ namespace WebApi.Controllers
             _login = login;
             _token = token;
         }
-       
+
+
+        [ProducesResponseType(typeof(UsuarioDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("Login")]
         public IActionResult Login([FromBody] LoginDTO loginDTO)
         {
